@@ -10,7 +10,7 @@ var routeMap = {
 };
 
 var remotes = {
-//    getMatrix : hichord.getMatrix 
+//    myRemoteCall : myRemoteCallOnTheServer
 };
 
 var statics = {
