@@ -1,0 +1,17 @@
+{
+  "name": "DSSH",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "commander": "*",
+    "es6-promise" : "*",
+    "forever" : "*",
+    "domready" : "*",
+    "dnode" : "*",
+    "shoe" : "*",
+    "lru-cache" : "*"
+  }
+}
