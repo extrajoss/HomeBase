@@ -37,7 +37,7 @@ utils.watch(files, function(file) {
 
 function createTestAndMail(nowTime) {
 	nowTime = nowTime || moment().format("ddd, DD MMM YYYY HH:mm:ss");
-	var createTestReport = spawn(__dirname + '/createTestReport.sh', ['test']);
+	var createTestReport = spawn(config.get('BasePath') + '/createTestReport.sh', ['test']);
 
 	createTestReport.stderr.on('data', function(data) {
 		console.log(String(data));
@@ -48,7 +48,7 @@ function createTestAndMail(nowTime) {
 	});
 	createTestReport.stdout.on('end', function(data) {
 		// convert to String
-		fs.readFile(__dirname + '/public/test.html', 'utf8',
+		fs.readFile(config.get('BasePath') + '/public/test.html', 'utf8',
 				function(err, data) {
 					if (err) {
 						return console.log(err);

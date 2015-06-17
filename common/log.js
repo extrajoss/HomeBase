@@ -1,5 +1,5 @@
 var fs = require('fs');
-
+var config = require ('./config');
 var logger;
 
 if (fs.readdirSync) {
@@ -9,11 +9,11 @@ if (fs.readdirSync) {
 	logger = new (winston.Logger)({
 	  transports: [
 	//    new (winston.transports.Console)({ json: false, timestamp: true }),
-	    new winston.transports.File({ filename: __dirname + '/../log/debug.log', json: false })
+	    new winston.transports.File({ filename: config.get('BasePath') + '/log/debug.log', json: false })
 	  ],
 	  exceptionHandlers: [
 	    new (winston.transports.Console)({ json: false, timestamp: true }),
-	    new winston.transports.File({ filename: __dirname + '/../log/exceptions.log', json: false })
+	    new winston.transports.File({ filename: config.get('BasePath') + + '/log/exceptions.log', json: false })
 	  ],
 	  exitOnError: false
 	});
