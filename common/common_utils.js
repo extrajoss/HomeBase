@@ -71,12 +71,15 @@ var toggleOverlay = function (contents) { // contents = "HTML string"
 };
 
 
-var promiseWaterfall = function(promises, results) {
+var promiseWaterfall = function(promises, results, isLazy) {
     results = results || [];
   if (promises.length === 0) {
       return results;
   }
   var promise = promises.shift();
+  if (isLazy) {
+      promise = promise();
+  }
   console.log('promise array: ' + promises.length);
   if (promises.length === 0) {
       return promise.then(function (val) {
@@ -89,7 +92,7 @@ var promiseWaterfall = function(promises, results) {
       return promise.then(function (val) {
           console.log('promise finished' + promises.length + ' left!');
           results.push(val);
-         return promiseWaterfall(promises, results); 
+         return promiseWaterfall(promises, results, isLazy); 
       });
   }
   
