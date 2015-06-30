@@ -1,11 +1,14 @@
 # HomeBase
 Boiler plate for nodejs, express, dnode, sql
 
--- Installation
+Installation
+------------
+
 add homebase to your prereqs in the package.json and install (using npm install)
 then you can copy the files in node_modules/homebase/template/* to your base directory
 
--- Setup
+Setup
+-----
 All client files go in the client directory. After a file is changed, run ./build.sh to use browserfy to compile the client scripts into a single file (in public/javascripts/all.js) 
 All server files go in the server directory.
 

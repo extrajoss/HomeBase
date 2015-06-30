@@ -1,6 +1,6 @@
 {
   "name": "homebase",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": false,
   "scripts": {
     "start": "node app",
@@ -25,5 +25,9 @@
     "favicon" : "*",
     "morgan" : "*",
     "body-parser" : "*"
+  },
+  "repository": {
+      "type": "git",
+      "url": "git://github.com/Traksewt/HomeBase.git" 
   }
 }
