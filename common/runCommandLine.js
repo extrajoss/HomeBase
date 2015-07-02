@@ -12,9 +12,11 @@ module.exports = function (command, args, output) {
         var scriptProcess = spawn(command, args);
         scriptProcess.stdout.pipe(outStream);
         scriptProcess.on ('close', function (code) {
+            console.log('success command line: ' + [command, args] )
             resolve(code);
         })
         scriptProcess.on ('error', function (code) {
+            console.log('fail command line: ' + [command, args])
             reject(code);
         })
     })
