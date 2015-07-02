@@ -6,9 +6,9 @@ var Promise = require('es6-promise').Promise;
 
 module.exports = function (command, args, output) {
     args = args || [];
-    output = output || process.stdout;
-    var outStream = fs.createWriteStream(output, {flags: 'w'});
+    var outStream = output ? fs.createWriteStream(output, {flags: 'w'}) : process.stdout;
     return new Promise(function (resolve, reject) {
+        console.log('about to spawn: ' + [command, args]);
         var scriptProcess = spawn(command, args);
         scriptProcess.stdout.pipe(outStream);
         scriptProcess.on ('close', function (code) {
