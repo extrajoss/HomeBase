@@ -4,12 +4,12 @@ var spawn = require('child_process').spawn;
 var fs = require('fs');
 var Promise = require('es6-promise').Promise;
 
-module.exports = function (command, args, output) {
+module.exports = function (command, args, output, options) {
     args = args || [];
     var outStream = output ? fs.createWriteStream(output, {flags: 'w'}) : process.stdout;
     return new Promise(function (resolve, reject) {
         console.log('about to spawn: ' + [command, args]);
-        var scriptProcess = spawn(command, args);
+        var scriptProcess = spawn(command, args, options);
         scriptProcess.stdout.pipe(outStream);
         scriptProcess.on ('close', function (code) {
             console.log('success command line: ' + [command, args] )

@@ -6,6 +6,6 @@ var fs = require('fs');
 var Promise = require('es6-promise').Promise;
 var runCommand = require('./runCommandLine');
 
-module.exports = function (script, args, output) {
-    return runCommand ('python', [script].concat(args), output);
+module.exports = function (script, args, output, options) {
+    return runCommand ('python', [script].concat(args), output, options);
 }
