@@ -90,7 +90,7 @@ var promiseWaterfall = function(promises, results, isLazy) {
   }
   else {
       return promise.then(function (val) {
-          console.log('promise finished' + promises.length + ' left!');
+          console.log('promise ' + val + ' finished' + promises.length + ' left!');
           results.push(val);
          return promiseWaterfall(promises, results, isLazy); 
       });
