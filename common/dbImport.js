@@ -10,6 +10,8 @@ module.exports = function (dataFilePath, args) {
 		if (args.ignoreLines) {
 			 sql += " IGNORE " + args.ignoreLines + " LINES";
 		}
+		sql +=  " FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n' ";
+
 		sql += ";";
 		
 		return connector.queryPromise(sql)
