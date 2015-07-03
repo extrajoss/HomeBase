@@ -1,6 +1,6 @@
 {
   "name": "homebase",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "private": false,
   "scripts": {
     "start": "node app",
@@ -24,7 +24,10 @@
     "shoe" : "*",
     "favicon" : "*",
     "morgan" : "*",
-    "body-parser" : "*"
+    "body-parser" : "*",
+    "rimraf" : "*",
+    "es6-promise" : "*"
+
   },
   "repository": {
       "type": "git",
