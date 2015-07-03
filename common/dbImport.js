@@ -45,7 +45,7 @@ var split = function (dataFilePath, args) {
 }
 
 module.exports = function (dataFilePath, args) {
-    stats = statSync(dataFilePath);
+    stats = fs.statSync(dataFilePath);
     var fileSizeInBytes = stats['size'];
     
     // split if bigger than 20 Mb and tmp dir defined
