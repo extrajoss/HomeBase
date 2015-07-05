@@ -22,8 +22,7 @@ var loadData = function (dataFilePath, args) {
 	});
 }
 
-var split = function (dataFilePath, args) {
-    var dir = args.tmpDir + "/splitFiles";
+var split = function (dataFilePath, dir, args) {
     return new Promise(function (resolve, reject) {
         rmdir(dir, function (error ) {
             fs.mkdirSync(dir);
@@ -31,7 +30,7 @@ var split = function (dataFilePath, args) {
         })  
     }).then(function (resolve, reject) {
 
-        return runCommandLine('split', ['-l','1000000', dataFilePath, dir + "/" + dataFilePath]);
+        return runCommandLine('split', ['-l','100000', dataFilePath, dir + "/" + dataFilePath]);
     }).then (function (output) {
         return new Promise(function (resolve, reject) {
             
@@ -50,10 +49,11 @@ module.exports = function (dataFilePath, args) {
     
     // split if bigger than 20 Mb and tmp dir defined
     if (fileSizeInBytes > 1024 * 1024 * 20 && args.tmpDir) {
-        return split(dataFilePath, args).then(function (list) {
+        var dir = args.tmpDir + "/splitFiles";
+        return split(dataFilePath, dir, args).then(function (list) {
             var promises = list.map(function (filename) {
                 return function () {
-                  return loadData(filename, args);  
+                  return loadData(dir + "/" + filename, args);  
                 };
             }) ;
             return common_utils.promiseWaterfall(promises, null, true);
