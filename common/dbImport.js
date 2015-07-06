@@ -1,6 +1,7 @@
 var Promise = require('es6-promise').Promise;
 var connector = require('./connector');
 var fs = require('fs');
+var path = require('path');
 var runCommandLine = require('./runCommandLine');
 var rmdir = require('rimraf');
 var common_utils = require('homebase/common/common_utils');
@@ -30,7 +31,7 @@ var split = function (dataFilePath, dir, args) {
         })  
     }).then(function (resolve, reject) {
 
-        return runCommandLine('split', ['-l','100000', dataFilePath, dir + "/" + dataFilePath]);
+        return runCommandLine('split', ['-l','100000', dataFilePath, dir + "/" + path.basename(dataFilePath)]);
     }).then (function (output) {
         return new Promise(function (resolve, reject) {
             
