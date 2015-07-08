@@ -4,6 +4,7 @@ var path = require('path');
 var appDir = path.dirname(require.main.filename);
 
 var configFile = appDir + '/site.json';
+console.log('loading config: ' + configFile);
 var configJSON = fs.readFileSync(configFile);
 var config = JSON.parse(configJSON);
 

@@ -65,3 +65,5 @@ module.exports = function (dataFilePath, args) {
         return loadData(dataFilePath, args);
     }
 }
+
+module.exports.split = split;
