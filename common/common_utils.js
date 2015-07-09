@@ -78,7 +78,7 @@ var promiseWaterfall = function(promises, results, isLazy) {
   }
   var promise = promises.shift();
   if (isLazy) {
-      promise = promise();
+      promise = promise(promise.args);
   }
   console.log('promise array: ' + promises.length);
   if (promises.length === 0) {
