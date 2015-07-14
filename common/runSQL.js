@@ -11,7 +11,7 @@ module.exports = function (template, args, connectionArgs) {
 //		console.log('sql: ' + sql);
 		return connector.queryPromise(sql, null, connectionArgs);
 	}).catch(function (err) {
-		console.log('error loading template: ' + template);
+		console.log('error loading template: ' + template + ", " + err.stack);
 	});
 }
 
