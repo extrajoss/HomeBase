@@ -18,14 +18,13 @@ module.exports = function (template, args, connectionArgs) {
 
 var loadSQL = function (template, args) {
 	return new Promise(function (resolve, reject) {
-//		console.log('running SQL: ' + template + ", args: " + JSON.stringify(args)	);	
-		fs.readFile(template, 'utf8', function (err, templateData) {
+//		console.log('running SQL: ' + template + ", args: " + JSON.stringify(args)	);
+	    ejs.renderFile(templateData, args, function (err, templateData) {
 			if (err) {
 				console.log('error: ' + err);
 				return reject (err);
 			}
-			var sql = ejs.render(templateData, args);
-			resolve(sql);
+			resolve(templateData);
 		});
 	});	
 }
