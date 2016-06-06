@@ -19,7 +19,7 @@ module.exports = function (template, args, connectionArgs) {
 var loadSQL = function (template, args) {
 	return new Promise(function (resolve, reject) {
 //		console.log('running SQL: ' + template + ", args: " + JSON.stringify(args)	);
-	    ejs.renderFile(templateData, args, function (err, templateData) {
+	    ejs.renderFile(template, args, function (err, templateData) {
 			if (err) {
 				console.log('error: ' + err);
 				return reject (err);
