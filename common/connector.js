@@ -20,6 +20,7 @@ var backupMysql = null;
 var args = {
     connectionLimit : 5,
 		host     : config.get('dbhost'),
+		port     : config.get('dbport') || 3306,
 		user     : config.get('dbuser'),
 		password : config.get('dbpassword'),
 		database : config.get('database'),
