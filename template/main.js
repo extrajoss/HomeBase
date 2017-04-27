@@ -1,7 +1,7 @@
 var routes = require('./routes'); 
 var app = require('homebase/app'); 
 
-var express = require('homebase/node_modules/express');
+var express = require('express');
 var config = require('homebase/common/config');
 
 var routeMap = {
