@@ -1,5 +1,5 @@
 var Promise = require('es6-promise').Promise;
-
+var io = require('socket.io-client');
 var initialised = false;
 
 var RemotePromise = function (remote) {
