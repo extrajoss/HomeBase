@@ -40,7 +40,7 @@ var setup = function(remotes, routeMap, staticsMap, sslOptions) {
 				requestCert: false,
 				rejectUnauthorized: false
 			};
-			let http_port = port;
+			var http_port = port;
 			port = app.get('https_port');
 			http_app = express();
 			http_router = express.Router();
