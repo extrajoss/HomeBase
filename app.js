@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-var express = require('express'), http = require('http'), path = require('path'), fs = require('fs');
+var express = require('express'), http = require('http'),https = require('https'), path = require('path'), fs = require('fs');
 var config = require('./common/config');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
@@ -23,20 +23,36 @@ app.set('view engine', 'ejs');
 // '/public/images/favicon.ico'));
 // app.use(express.logger('dev'));
 
-var setup = function(remotes, routeMap, staticsMap) {
+var setup = function(remotes, routeMap, staticsMap, sslOptions) {
 	try {
 
 		console.log('in setup: ' + remotes + ", " + Object.keys(remotes));
 		// app.configure('development', function(){
 		var server = null;
+		var port = app.get('port');
 
 		// app.configure('development', function(){
 		var server = null;
-
-		server = http.createServer(app);
+		if(sslOptions){
+			var options = {
+				key: fs.readFileSync( sslOptions.key),
+				cert: fs.readFileSync( sslOptions.cert ),
+				requestCert: false,
+				rejectUnauthorized: false
+			};
+			server_http = http.createServer(app);
+			server_http.get('*',function(req,res){  
+				res.redirect('https://'+req.url)
+			})
+			http.listen(port);
+			port = app.get('https_port');
+			server = https.createServer( options, app );
+		}else{
+			server = http.createServer(app);
+		}
 		var io = socketIO(server);
-		server.listen(app.get('port'), function() {
-			console.log("Express server listening on port " + app.get('port'));
+		server.listen(port, function() {
+			console.log("Express server listening on port " + port);
 		});
 
 		io.on('connection', function(socket) {
