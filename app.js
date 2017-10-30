@@ -1,7 +1,8 @@
 /**
  * Module dependencies.
  */
-var express = require('express'), http = require('http'),https = require('https'), path = require('path'), fs = require('fs');
+var express = require('express'), http = require('http'),https = require('https'), path = require('path'), fs = require('fs'); 
+
 var config = require('./common/config');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
@@ -15,6 +16,7 @@ var app = express();
 // var access_logfile = fs.createWriteStream('log/access.log', {flags: 'a'});
 console.log('app:' + app + ', config: ' + app.configure);
 app.set('port', process.env.PORT || config.get('port'));
+app.set('https_port',process.env.HTTPS_PORT || config.get('https_port'));
 // Switched to EJS engine - see http://stackoverflow.com/questions/4600952/
 // Info on EJS ('Embedded JavaScript templates') -
 // https://github.com/visionmedia/ejs
@@ -27,12 +29,10 @@ var setup = function(remotes, routeMap, staticsMap, sslOptions) {
 	try {
 
 		console.log('in setup: ' + remotes + ", " + Object.keys(remotes));
-		// app.configure('development', function(){
+
 		var server = null;
 		var port = app.get('port');
 
-		// app.configure('development', function(){
-		var server = null;
 		if(sslOptions){
 			var options = {
 				key: fs.readFileSync( sslOptions.key),
@@ -40,12 +40,24 @@ var setup = function(remotes, routeMap, staticsMap, sslOptions) {
 				requestCert: false,
 				rejectUnauthorized: false
 			};
-			server_http = http.createServer(app);
-			server_http.get('*',function(req,res){  
-				res.redirect('https://'+req.url)
-			})
-			http.listen(port);
+			let http_port = port;
 			port = app.get('https_port');
+			http_app = express();
+			http_router = express.Router();
+			http_app.use('/', http_router);
+			http_router.get('*', function(req, res){
+				if (!/https/.test(req.protocol)){
+					var host = req.get('Host');
+					var destination = ['https://', host, req.url].join('');
+					return res.redirect(destination);
+				 } else {
+					return next();
+				 } 
+			});
+			var http_server = http.createServer(http_app);
+			http_server.listen(http_port, function() {
+				console.log("Express http server listening on port " + http_port);
+			});
 			server = https.createServer( options, app );
 		}else{
 			server = http.createServer(app);
