@@ -25,11 +25,7 @@ app.set('view engine', 'ejs');
 // '/public/images/favicon.ico'));
 // app.use(express.logger('dev'));
 
-<<<<<<< HEAD
 var setup = function (remotes, routeMap, staticsMap) {
-=======
-var setup = function(remotes, routeMap, staticsMap) {
->>>>>>> 9e3b22a9c8b8b49e97bb2c4dffd623661bf55461
 	try {
 
 		var get_https_config = function(){
@@ -47,19 +43,11 @@ var setup = function(remotes, routeMap, staticsMap) {
 
 		var server = null;
 		var port = app.get('port');
-<<<<<<< HEAD
 		var https_config = get_https_config();
 		if (https_config) {
 			var options = {
 				key: fs.readFileSync(https_config.key),
 				cert: fs.readFileSync(https_config.cert),
-=======
-		var https_config = get_https_config()
-		if(https_config){
-			var options = {
-				key: fs.readFileSync( https_config.key),
-				cert: fs.readFileSync( https_config.cert ),
->>>>>>> 9e3b22a9c8b8b49e97bb2c4dffd623661bf55461
 				requestCert: false,
 				rejectUnauthorized: false
 			};
@@ -152,17 +140,6 @@ var setup = function(remotes, routeMap, staticsMap) {
 	} catch (err) {
 		console.log('error occurred during setup of Base app.' + err.stack)
 		return 0;
-	}
-
-	var get_https_config = function(){
-		if (!(config.get('https_port')&&config.get('ssl_key')&&config.get('ssl_cert'))){
-			return false;
-		}
-		var result = {};
-		result.port = config.get('https_port');
-		result.key = config.get('ssl_key');
-		result.cert = config.get('ssl_cert');
-		
 	}
 }
 
