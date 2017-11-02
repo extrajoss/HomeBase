@@ -25,23 +25,23 @@ app.set('view engine', 'ejs');
 // '/public/images/favicon.ico'));
 // app.use(express.logger('dev'));
 
-var setup = function(remotes, routeMap, staticsMap, sslOptions) {
+var setup = function(remotes, routeMap, staticsMap) {
 	try {
 
 		console.log('in setup: ' + remotes + ", " + Object.keys(remotes));
 
 		var server = null;
 		var port = app.get('port');
-
-		if(sslOptions){
+		var https_config = get_https_config()
+		if(https_config){
 			var options = {
-				key: fs.readFileSync( sslOptions.key),
-				cert: fs.readFileSync( sslOptions.cert ),
+				key: fs.readFileSync( https_config.key),
+				cert: fs.readFileSync( https_config.cert ),
 				requestCert: false,
 				rejectUnauthorized: false
 			};
 			var http_port = port;
-			port = app.get('https_port');
+			port = https_config.port;
 			http_app = express();
 			http_router = express.Router();
 			http_app.use('/', http_router);
@@ -126,6 +126,16 @@ var setup = function(remotes, routeMap, staticsMap, sslOptions) {
 		return 0;
 	}
 
+	var get_https_config = function(){
+		if (!(config.get('https_port')&&config.get('ssl_key')&&config.get('ssl_cert'))){
+			return false;
+		}
+		var result = {};
+		result.port = config.get('https_port');
+		result.key = config.get('ssl_key');
+		result.cert = config.get('ssl_cert');
+		
+	}
 }
 
 module.exports.setup = setup;
