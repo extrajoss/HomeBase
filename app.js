@@ -7,10 +7,14 @@ var config = require('./common/config');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var socketIO = require('socket.io');
+var flash = require('connect-flash');
+var session = require('express-session');
+var cookie = require('cookie-parser');
 
 // var expiry = require('static-expiry');
 
 var app = express();
+
 
 // http://www.hacksparrow.com/express-js-logging-access-and-errors.html
 // var access_logfile = fs.createWriteStream('log/access.log', {flags: 'a'});
@@ -102,7 +106,6 @@ var setup = function (remotes, routeMap, staticsMap) {
 			layout: false
 		});
 		if (routeMap) {
-
 			Object.keys(routeMap).forEach(function (key) {
 				app.get(key, routeMap[key]);
 			});
@@ -118,15 +121,18 @@ var setup = function (remotes, routeMap, staticsMap) {
 			limit: '10mb',
 			extended: true
 		}));
-		// app.use(express.methodOverride());
-		// app.use(express.cookieParser('your secret here'));
-		// app.use(express.session());
+		app.use(cookie());
+		app.use(session({
+			secret: 'FBiA',
+			resave: true,
+			saveUninitialized: true
+		}));
+		app.use(flash());
 		app.use(express.static(path.join(config.get('BasePath'), '/public'),
 			{
 				maxAge: 3600000
 			}));
 		if (staticsMap) {
-
 			Object.keys(staticsMap).forEach(function (key) {
 				app.use(key, express.static(staticsMap[key], {
 					maxAge: 3600000
