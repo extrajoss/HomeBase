@@ -27,7 +27,7 @@ var setup = function (remotes , routeMap , staticsMap ) {
 			return result;
 		}
 		
-		emotes && console.log('in setup: ' + remotes + ", " + Object.keys(remotes));
+		remotes && console.log('in setup: ' + remotes + ", " + Object.keys(remotes));
 
 		var server = null;
 		var port = app.get('port');
