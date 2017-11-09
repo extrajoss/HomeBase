@@ -1,8 +1,4 @@
-/**
- * Module dependencies.
- */
 var express = require('express'), http = require('http'), https = require('https'), path = require('path'), fs = require('fs');
-
 var config = require('./common/config');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
@@ -10,26 +6,14 @@ var socketIO = require('socket.io');
 var flash = require('connect-flash');
 var session = require('express-session');
 var cookie = require('cookie-parser');
-
-// var expiry = require('static-expiry');
-
 var app = express();
 
-
-// http://www.hacksparrow.com/express-js-logging-access-and-errors.html
-// var access_logfile = fs.createWriteStream('log/access.log', {flags: 'a'});
 console.log('app:' + app + ', config: ' + app.configure);
 app.set('port', process.env.PORT || config.get('port'));
 app.set('https_port', process.env.HTTPS_PORT || config.get('https_port'));
-// Switched to EJS engine - see http://stackoverflow.com/questions/4600952/
-// Info on EJS ('Embedded JavaScript templates') -
-// https://github.com/visionmedia/ejs
 app.set('view engine', 'ejs');
-// app.use(express.favicon(config.get('BasePath') +
-// '/public/images/favicon.ico'));
-// app.use(express.logger('dev'));
 
-var setup = function (remotes, routeMap, staticsMap) {
+var setup = function (remotes , routeMap , staticsMap ) {
 	try {
 
 		var get_https_config = function(){
@@ -43,7 +27,7 @@ var setup = function (remotes, routeMap, staticsMap) {
 			return result;
 		}
 		
-		console.log('in setup: ' + remotes + ", " + Object.keys(remotes));
+		emotes && console.log('in setup: ' + remotes + ", " + Object.keys(remotes));
 
 		var server = null;
 		var port = app.get('port');
@@ -85,10 +69,8 @@ var setup = function (remotes, routeMap, staticsMap) {
 		io.on('connection', function (socket) {
 			var socketThat = this;
 			console.log('a user connected');
-			Object.keys(remotes).forEach(function (remoteKey) {
+			remotes && Object.keys(remotes).forEach(function (remoteKey) {
 				socket.on(remoteKey, function () {
-					//					var args = JSON.parse(data);
-					//					args.push(callback);
 					console.log('user called remoteKey');
 					remotes[remoteKey].apply(socketThat, arguments);
 				});
@@ -101,7 +83,6 @@ var setup = function (remotes, routeMap, staticsMap) {
 			socket.emit('remoteDictionary', Object.keys(remotes));
 		});
 
-		// Disable layout - http://stackoverflow.com/questions/4600952/
 		app.set('view options', {
 			layout: false
 		});
@@ -111,9 +92,7 @@ var setup = function (remotes, routeMap, staticsMap) {
 			});
 		}
 
-		// app.use(express.errorHandler());
 		app.use(logger('dev'));
-		// app.use(bodyParser());
 		app.use(bodyParser.json({
 			limit: '10mb'
 		}));
@@ -140,7 +119,6 @@ var setup = function (remotes, routeMap, staticsMap) {
 			});
 		}
 
-		// app.use(logger({stream: access_logfile }));
 		app.set('views', config.get('BasePath') + '/views');
 		return app;
 	} catch (err) {
