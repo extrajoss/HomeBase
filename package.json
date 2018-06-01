@@ -9,8 +9,8 @@
   "main": "./app",
   "dependencies": {
     "body-parser": "*",
-    "cookie-parser": "*",
     "connect-flash": "*",
+    "cookie-parser": "*",
     "domready": "*",
     "ejs": "*",
     "emailjs": "*",
@@ -20,6 +20,7 @@
     "favicon": "*",
     "forever": "*",
     "html-entities": "*",
+    "http-proxy": "^1.17.0",
     "mocha": "*",
     "mocha-html-reporter": "*",
     "morgan": "*",
@@ -32,6 +33,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Traksewt/HomeBase.git"
+    "url": "https://github.com/extrajoss/HomeBase.git"
   }
 }
