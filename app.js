@@ -11,7 +11,6 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var cookie = require('cookie-parser');
 var app = express();
-var httpProxy = require('http-proxy');
 
 console.log('app:' + app + ', config: ' + app.configure);
 app.set('port', process.env.PORT || config.get('port'));
@@ -38,21 +37,27 @@ var setup = function(remotes, routeMap, staticsMap) {
 
     var server = null;
     var port = app.get('port');
-    var production_port = config.get('production.port')
-    var development_port = config.get('development.port')
-    if (production_port && development_port) {
-      var options = {
-        router: {
-          '/development': ['127.0.0.1', development_port].join(":"),
-          '/': ['127.0.0.1', production_port].join(":")
-        }
-      };
-      var proxyServer = httpProxy.createServer(options).listen(port);
-      console.log("Proxying from host:" + port + " to " + production_port);
-      console.log("Proxying from host:" + port + "/development to " +
-        development_port);
+    var development_domain = config.get('development').domain
+    var development_port = config.get('development').port
+    var production_domain = config.get('production').domain
+    var production_port = config.get('production').port
+    if (development_domain && development_port && production_domain &&
+      production_port) {
+      var proxy = require('redbird')({
+        port: app.get('port')
+      });
+      let developmentServer = ['http://localhost:', development_port].join('');
+      console.log("Proxying from host:" + port + " to " +
+        developmentServer);
+      proxy.register([development_domain, port].join(":"), developmentServer);
+
+      let productionServer = ['http://localhost:', production_port].join('');
+      console.log("Proxying from " + production_domain + ":" + port + " to " +
+        productionServer);
+      proxy.register([production_domain, port].join(":"), productionServer);
       port = production_port
     }
+
     var https_config = get_https_config();
     if (https_config) {
       httpProxy.createServer({
