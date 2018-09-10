@@ -39,14 +39,13 @@ var setup = function(remotes, routeMap, staticsMap) {
 
     var server = null;
     var port = app.get('port');
-    var development_domain = config.get('development').domain
-    var development_port = config.get('development').port
+    var development = config.get('development')
     var pathRewrite = function(path, req) {
       return path.replace(development_domain, '/')
     }
-    if (development_domain && development_port) {
-      app.use(development_domain, proxy({
-        target: "http://localhost:" + development_port,
+    if (development && development.domain && development.port) {
+      app.use(development.domain, proxy({
+        target: "http://localhost:" + development.port,
         changeOrigin: true,
         pathRewrite: pathRewrite
       }));
